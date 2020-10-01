@@ -1,0 +1,1984 @@
+
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="https://distill.pub/template.v1.js"></script><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><script>
+window.addEventListener('WebComponentsReady', function() {
+  console.warn('WebComponentsReady');
+  const loaderTag = document.createElement('script');
+  loaderTag.src = 'https://distill.pub/template.v2.js';
+  document.head.insertBefore(loaderTag, document.head.firstChild);
+});
+</script><script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.17/webcomponents-loader.js"></script>
+  
+  
+  <title>Illustrated Self-Supervised Learning</title>
+  <style id="distill-prerendered-styles" type="text/css">/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html {
+  font-size: 14px;
+	line-height: 1.6em;
+  /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #004276;
+}
+
+figure {
+  margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table th {
+	text-align: left;
+}
+
+table thead {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table thead th {
+  padding-bottom: 0.5em;
+}
+
+table tbody :first-child td {
+  padding-top: 0.5em;
+}
+
+pre {
+  overflow: auto;
+  max-width: 100%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 1em;
+}
+
+sub {
+  top: 0.4em;
+}
+
+.kicker,
+.marker {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Headline */
+
+@media(min-width: 1024px) {
+  d-title h1 span {
+    display: block;
+  }
+}
+
+/* Figure */
+
+figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+figcaption+figure {
+
+}
+
+figure img {
+  width: 100%;
+}
+
+figure svg text,
+figure svg tspan {
+}
+
+figcaption,
+.figcaption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+@media(min-width: 1024px) {
+figcaption,
+.figcaption {
+    font-size: 13px;
+  }
+}
+
+figure.external img {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+figcaption b,
+figcaption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@supports not (display: grid) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    display: block;
+    padding: 8px;
+  }
+}
+
+.base-grid,
+distill-header,
+d-title,
+d-abstract,
+d-article,
+d-appendix,
+distill-appendix,
+d-byline,
+d-footnote-list,
+d-citation-list,
+distill-footer {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+  grid-column-gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 8px;
+}
+
+@media(min-width: 768px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+
+
+.base-grid {
+  grid-column: screen;
+}
+
+/* .l-body,
+d-article > *  {
+  grid-column: text;
+}
+
+.l-page,
+d-title > *,
+d-figure {
+  grid-column: page;
+} */
+
+.l-gutter {
+  grid-column: gutter;
+}
+
+.l-text,
+.l-body {
+  grid-column: text;
+}
+
+.l-page {
+  grid-column: page;
+}
+
+.l-body-outset {
+  grid-column: middle;
+}
+
+.l-page-outset {
+  grid-column: page;
+}
+
+.l-screen {
+  grid-column: screen;
+}
+
+.l-screen-inset {
+  grid-column: screen;
+  padding-left: 16px;
+  padding-left: 16px;
+}
+
+
+/* Aside */
+
+d-article aside {
+  grid-column: gutter;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+@media(min-width: 768px) {
+  aside {
+    grid-column: gutter;
+  }
+
+  .side {
+    grid-column: gutter;
+  }
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-title {
+  padding: 2rem 0 1.5rem;
+  contain: layout style;
+  overflow-x: hidden;
+}
+
+@media(min-width: 768px) {
+  d-title {
+    padding: 4rem 0 1.5rem;
+  }
+}
+
+d-title h1 {
+  grid-column: text;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+@media(min-width: 768px) {
+  d-title h1 {
+    font-size: 50px;
+  }
+}
+
+d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  grid-column: text;
+}
+
+d-title .status {
+  margin-top: 0px;
+  font-size: 12px;
+  color: #009688;
+  opacity: 0.8;
+  grid-column: kicker;
+}
+
+d-title .status span {
+  line-height: 1;
+  display: inline-block;
+  padding: 6px 0;
+  border-bottom: 1px solid #80cbc4;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-byline {
+  contain: style;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  line-height: 1.8em;
+  padding: 1.5rem 0;
+  min-height: 1.8em;
+}
+
+
+d-byline .byline {
+  grid-template-columns: 1fr 1fr;
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-byline .byline {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+d-byline .authors-affiliations {
+  grid-column-end: span 2;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
+}
+
+@media(min-width: 768px) {
+  d-byline .authors-affiliations {
+    margin-bottom: 0;
+  }
+}
+
+d-byline h3 {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+d-byline p {
+  margin: 0;
+}
+
+d-byline a,
+d-article d-byline a {
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+d-article d-byline a:hover {
+  text-decoration: underline;
+  border-bottom: none;
+}
+
+d-byline p.author {
+  font-weight: 500;
+}
+
+d-byline .affiliations {
+
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+d-article {
+  contain: layout style;
+  overflow-x: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+d-article > * {
+  grid-column: text;
+}
+
+@media(min-width: 768px) {
+  d-article {
+    font-size: 16px;
+  }
+}
+
+@media(min-width: 1024px) {
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+}
+
+
+/* H2 */
+
+
+d-article .marker {
+  text-decoration: none;
+  border: none;
+  counter-reset: section;
+  grid-column: kicker;
+  line-height: 1.7em;
+}
+
+d-article .marker:hover {
+  border: none;
+}
+
+d-article .marker span {
+  padding: 0 3px 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  top: 4px;
+}
+
+d-article .marker:hover span {
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+d-article h2 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.25em;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+@media(min-width: 1024px) {
+  d-article h2 {
+    font-size: 36px;
+  }
+}
+
+/* H3 */
+
+d-article h3 {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  margin-top: 2em;
+}
+
+@media(min-width: 1024px) {
+  d-article h3 {
+    font-size: 20px;
+  }
+}
+
+/* H4 */
+
+d-article h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+
+d-article a {
+  color: inherit;
+}
+
+d-article p,
+d-article ul,
+d-article ol,
+d-article blockquote {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+d-article blockquote {
+  border-left: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 2em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-article a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+}
+
+d-article a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+d-article .link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+d-article ul,
+d-article ol {
+  padding-left: 24px;
+}
+
+d-article li {
+  margin-bottom: 1em;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+d-article li:last-child {
+  margin-bottom: 0;
+}
+
+d-article pre {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+d-article hr {
+  grid-column: screen;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+d-article span.equation-mimic {
+  font-family: georgia;
+  font-size: 115%;
+  font-style: italic;
+}
+
+d-article > d-code,
+d-article section > d-code  {
+  display: block;
+}
+
+d-article > d-math[block],
+d-article section > d-math[block]  {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  d-article > d-code,
+  d-article section > d-code,
+  d-article > d-math[block],
+  d-article section > d-math[block] {
+      overflow-x: scroll;
+      -ms-overflow-style: none;  // IE 10+
+      overflow: -moz-scrollbars-none;  // Firefox
+  }
+
+  d-article > d-code::-webkit-scrollbar,
+  d-article section > d-code::-webkit-scrollbar,
+  d-article > d-math[block]::-webkit-scrollbar,
+  d-article section > d-math[block]::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+  }
+}
+
+d-article .citation {
+  color: #668;
+  cursor: pointer;
+}
+
+d-include {
+  width: auto;
+  display: block;
+}
+
+d-figure {
+  contain: layout style;
+}
+
+/* KaTeX */
+
+.katex, .katex-prerendered {
+  contain: style;
+  display: inline-block;
+}
+
+/* Tables */
+
+d-article table {
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table th {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+d-article table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+d-article table tr:last-of-type td {
+  border-bottom: none;
+}
+
+d-article table th,
+d-article table td {
+  font-size: 15px;
+  padding: 2px 8px;
+}
+
+d-article table tbody :first-child td {
+  padding-top: 2px;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+span.katex-display {
+  text-align: left;
+  padding: 8px 0 8px 0;
+  margin: 0.5em 0 0.5em 1em;
+}
+
+span.katex {
+  -webkit-font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 1.18em;
+}
+/*
+ * Copyright 2018 The Distill Template Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@media print {
+
+  @page {
+    size: 8in 11in;
+    @bottom-right {
+      content: counter(page) " of " counter(pages);
+    }
+  }
+
+  html {
+    /* no general margins -- CSS Grid takes care of those */
+  }
+
+  p, code {
+    page-break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  d-header {
+    visibility: hidden;
+  }
+
+  d-footer {
+    display: none!important;
+  }
+
+}
+</style>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <script defer="" src="js/hider.js"></script>
+  <script defer="" src="js/gif-slider.js"></script>
+
+<!-- For Latex -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="https://distill.pub/third-party/katex/katex.min.css" crossorigin="anonymous">
+
+
+  <d-front-matter>
+    <script id="distill-front-matter" type="text/json">
+      {
+        "title": "Illustrated Self-Supervised Learning",
+        "description": "A Deep Dive into the world of Self Supervision",
+        "authors": [{
+            "author": "Sankalp Arora",
+            "authorURL": "https://www.iith.ac.in/~vineethnb/",
+            "affiliations": [{
+              "name": "National Institute Of Technology, Kurukshetra",
+              "affiliationURL": "https://www.nitkkr.ac.in/"
+            }]
+          },
+          {
+            "author": "Vineeth N Balasubramanian",
+            "authorURL": "https://www.iith.ac.in/~vineethnb/",
+            "affiliations": [{
+              "name": "Indian Insitute of Technology Hyderabad",
+              "affiliationURL": "https://iith.ac.in/"
+            }]
+          }
+        ],
+        "katex": {
+          "delimiters": [{
+            "left": "$$",
+            "right": "$$",
+            "display": false
+          }]
+        }
+      }
+    </script>
+  </d-front-matter>
+
+  <d-title style="padding-bottom: 0"><h1>Illustrated Self Supervised Learning</h1> 
+    <p>A Deep Dive into the world of Self-Supervision</p>
+  </d-title>
+
+  <d-byline>
+  <div class="byline grid">
+    <div class="authors-affiliations grid">
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      
+        <p class="author">
+          
+            <a class="name" href="https://sankalparora.com/">Sankalp Arora</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">National Institute Of Technology, Kurukshetra</span>
+        </p>
+      
+        <p class="author">
+          
+            <a class="name" href="https://www.iith.ac.in/~vineethnb/">Vineeth N Balasubramanian</a>
+        </p>
+        <p class="affiliation">
+        <span class="affiliation">Indian Insitute of Technology Hyderabad</span>
+        </p>
+      
+    </div>
+    <div>
+      <h3>Published</h3>
+      
+        <p>Not published yet</p> 
+    </div>
+    <div>
+      <h3>DOI</h3>
+      
+        <p>No DOI yet</p>
+    </div>
+  </div>
+</d-byline>
+
+  <d-article style="overflow-x: unset;">
+    <p>
+      Considering the performance of training the machine learning models, a decent amount of labels is something that comes very first in mind, but manual annotations prove to be time consuming and expensive process. Scrutinizing the rising unlabeled data’s stock (e.g., all the images on the Internet, free surveys, free texts), which is substantially more than a limited number of human-curated labeled datasets, turns out to be wasteful not to use them. Thus, a significant tailback in the current supervised learning paradigm is the label generation part. 
+     </p>
+	
+     <p>
+     What if we can frame a supervised learning task in a unique form to predict only a subset of information using the rest to get labels for free for unlabeled data and train unsupervised datasets in a supervised manner? Yes, we can achieve this! Moreover, this way, all the information needed, both inputs and labels have been provided. This technique is known as <b>Self-Supervised learning</b>. Self-Supervised learning is majorly used in Natural Language Processing and much less used in computer vision models.
+
+    </p>
+
+ <p>
+     This Paper deals with all the methodologies and newly innovated techniques of Self-Supervised learning categorized into three different sections of Image-Based, Video-Based, and Control Based SSL.
+
+    </p> 
+    <p>
+
+    </p>
+
+    <h2><b>Image-Based</b></h2>
+
+<ul class="table-of-content" id="markdown-toc" style="line-height:3;" >
+  <li><b>Category 1: Reconstruction And Generative Modelling</b><ul style="line-height:0.5;">
+      <li>Image Colorization</li>
+      <li>Image Super-resolution</li>
+      <li>Image Inpainting (Context Encoders)</li>
+      <li>Cross Channel Prediction(Split Brain Autoencoders)</li>
+      <li>Examplar CNN's</li>
+      <li>Denoising Autoencoders and Bidirectional GANs</li>
+      <li>Image Clustering</li>
+      <li>Synthetic Imagery</li>
+    </ul>
+  </li>
+  <li><b>Category 2: Common Sense Taks</b><ul style="line-height:0.5;">
+      <li>Image Jigsaw Puzzle and Counting features</li>
+      <li>Context Prediction(Relative Positioning)</li>
+      <li>Geometric Transformation Recognition(Rotation)</li>
+    </ul>
+  </li>
+  <li><b>Category 3: Contrastive Predictive Learning Based </b><ul style="line-height:0.5;">
+      <li>Contrastive Predictive Coding</li>
+      <li>Momentum Contrast</li>
+      <li>SimCLR</li>
+      <li>Bootstrap Your Own Latent (BYOL)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2><b>Video-Based</b></h2>
+
+<ul class="table-of-content-2" id="markdown-toc" style="line-height:0.5;" >
+  <li>Tracking</li>
+  <li>Video Colorization</li>
+<li>Frame Order Verification</li>
+</ul>
+
+<h2><b>Control-Based</b></h2>
+
+<ul class="table-of-content-2" id="markdown-toc" style="line-height:0.5;" >
+  <li>Multi-view Metric Learning</li>
+  <li>Autonomous Goal Generation</li>
+<li>Bisimulation</li>
+</ul>
+<p>
+</p>
+
+<h2><b>Why Self-Supervised Learning?</b></h2>
+
+    <p>
+To cut short the expenses and time-consumed producing a dataset with clean labels and to make better use of waste, all-time generate unlabeled data learning objectives are appropriately set to get supervision from the data itself. Using self-supervised training, we can pre-train models on incredibly large databases without worrying about human-annotations as it empowers us to exploit a variety of labels that come with the data for free. In other words,  Self-supervised learning allows us to learn useful representations from unlabeled data before going supervised without using large annotated databases.
+    </p>
+
+<h2><b> Workflow</b> </h2>
+
+ <figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\1.png" style="width: 85%;"></d-figure>
+<figcaption><i>Fig. 1. Illustration of Supervised Learning workflow </i></figcaption>
+    </figure>
+
+
+ <figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\2.png" style="width: 85%;"></d-figure>
+<figcaption><i>Fig. 1. Illustration of Self-Supervised Learning workflow </i></figcaption>
+    </figure>
+
+<h2><b>Image-Based</b></h2>
+
+    <p>
+      Many ideas have been proposed for self-supervised representation learning on images. A common workflow is to train a model on one or multiple pretext tasks with unlabeled images and then use one intermediate feature layer of this model to feed a multinomial logistic regression classifier on ImageNet classification. The final classification accuracy quantifies how good the learned representation is. Recently, some researchers proposed to train supervised learning on labelled data and self-supervised pretext tasks on unlabeled data simultaneously with shared weights, like in <dt-cite key="zhai2019s4l"></dt-cite> and <dt-cite key="sun2019unsupervised"></dt-cite>.
+    </p>
+<p></p>
+
+<p style="font-size:24px;"><b>Category 1: <u>Reconstruction And Generative Modelling</u></b><p>
+
+<p>A Generative Model is a potent way of learning any data distribution using unsupervised learning,aim at learning the actual data distribution of the training set to produce new data points with some variations. Images can be reconstructed efficiently by simply forward-propagating the new data through the network using the fixed learned parameters, reconstruction of images forces the network to learn the latent visual representations which can further be used for the downstream tasks. The methods mentioned below are based on learning through reconstruction and Generative modelling.</p>
+
+<p style="font-size:20px;"><b><u>Image Colorization</u></b><p>
+
+<p>Colorization can be used as an overpowering pretext task for self-supervised feature learning, acting as a cross-channel encoder: where a model is trained to color the grayscale input images. To develop this task, the model must learn about different objects present in the image and related parts to map the image to a distribution over quantized color value outputs. Thus, representations learned by the model are useful for downstream tasks <dt-cite key="zhang2016colorful"></dt-cite>.</p>
+
+
+ <figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Colorization.jpg"></d-figure>
+<figcaption><i>Fig. 3. Network structure for the Image Colorization task. (Image source: <dt-cite key="zhang2016colorful"></dt-cite>.</p>).</i></figcaption>
+    </figure>
+
+<p>The model out turns colors in the CIE Lab* color space. CIELAB was designed to correspond to the same amount of numerical change in these values, roughly to the same amount of visually perceived changes, i.e., approximating the human vision.</p>
+
+<p>It expresses color as three values:
+<br>L* component for the lightness from black (0) to white (100)
+<br>a* component from green (−) to red (+)
+<br>b* component from blue (−) to yellow (+).</p>
+
+<p>We can use an encoder-decoder architecture based on a fully convolutional neural network to compute the L2 loss between the predicted and actual colored images. However, due to the colorization problem's multimodal nature, cross-entropy loss of predicted probability distribution over binned color values performs better than L2 loss of the raw color values.</p> 
+
+
+ <figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\encoder-decoder.png"></d-figure>
+<figcaption><i>Fig. 4. Training Data Generation for Image Colorization</i></figcaption>
+    </figure>
+
+<p>To look at the problem of color bucket losses. The loss function is modified and rebalanced with a weighting term, which then boosts the loss of infrequent color buckets. Development of weighting term is as follows: (1-λ) * Gaussian-kernel-smoothed empirical probability distribution + λ * a uniform distribution, Considering both the distributions are over the quantized ab color space.</p>
+
+
+<p style="font-size:20px;"><b><u>Image Super-Resolution</u></b><p>
+
+<p><b>SRGAN</b> is a generative adversarial network (GAN) for image super-resolution (SR), used to recover photo-realistic textures from heavily down-sampled images by proposing a perceptual loss function.</p>
+
+<p>Perceptual loss function consists:
+<br>1.) Adversarial loss 
+<br>2.) Content loss.</p>
+
+
+    <figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\ISR.png"></d-figure>
+<figcaption><i>Fig. 5. Illustration of General structure of the SRGAN training process.</i></figcaption>
+    </figure>
+
+<p>The adversarial loss using a discriminator network pushes the possibilities to the natural images, the discriminator network is trained to distinguish between the super-resolved images and the original photo-realistic images.
+The content loss promise perceptual similarity instead of similarity in pixel space. As a result, the framework is capable of inferring photo-realistic natural images for 4x upscaling factors.</p>
+
+<figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Content Loss.png"></d-figure>
+<figcaption><i>Fig. 6. Illustration of General structure of the SRGAN training process. (Image Source: <dt-cite key="HH"></dt-cite>}</i></figcaption>
+    </figure>
+
+<p>The generator takes a low-resolution image and outputs a high-resolution image using a fully convolutional network. The perceptual loss calculated by comparing the original and the predicted image imitate human-like quality comparison. In contrast, the binary-classification discriminator classifies the image as an actual high-resolution image(1), or a fake generated superresolution image(0). This interplay between the models enables both generator and discriminator to learn semantic features that can be used for downstream tasks and to produce images with fine details.</p>
+
+<p style="font-size:20px;"><b><u>Image Inpainting (Context Autoencoders) </u></b><p>
+
+<p>Inpainting, altering an image in an undetectable form so that observers cannot tell that these regions have undergone restoration, is as ancient as art itself. Image inpainting is a technique that has galvanized widespread experimentation amongst enthusiasts and is often used to replicate unwanted objects from an image or restore damaged/distorted portions of the image. The context encoder is trained to fill in a missing piece in the image and leverage a GAN-based architecture where the generator can learn to reconstruct the image while discriminator separates real and generated images to fill in a missing piece in the image. <dt-cite key="pathak2016context"></dt-cite>.</p></p>
+
+<figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Inpainting_workflow.png"></d-figure>
+<figcaption><i>Fig. 7. Illustration of Overview of architecture for learning image inpainting. (Image source: <dt-cite key="Iizuka"></dt-cite>)</i></figcaption>
+    </figure>
+
+
+<p>To enable the neural network, which is trained with a combination of the reconstruction (L2) loss and the adversarial loss to understand what part of the image needs filling in, a separate layer mask is needed that contains pixel information for the missing data so that the context encoder easily removes information of all the color channels in partial regions. Let <script type="math/tex">\hat{M}</script> be a binary mask, 0 for dropped pixels and 1 for remaining input pixels. The input image then goes through several convolutions and deconvolutions as it traverses across the network layers. The network does produce an entirely synthetic image generated from scratch. The layer mask allows us to discard those portions that are already presented in the incomplete image since we do not need to fill those parts in. The newly generated image is then superimposed on the incomplete one to yield the output. The removed regions, i.e., the mask, could be of any shape.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\mathcal{L}(\mathbf{x}) &= \mathcal{L}_\text{recon}(\mathbf{x}) + \mathcal{L}_\text{adv}(\mathbf{x})\\
+\mathcal{L}_\text{recon}(\mathbf{x}) &= \|(1 - \hat{M}) \odot (\mathbf{x} - E(\hat{M} \odot \mathbf{x})) \|_2^2 \\
+\mathcal{L}_\text{adv}(\mathbf{x}) &= \max_D \mathbb{E}_{\mathbf{x}} [\log D(\mathbf{x}) + \log(1 - D(E(\hat{M} \odot \mathbf{x})))]
+\end{aligned} %]]></script>
+
+<p>where <script type="math/tex">E(.)</script> is the encoder and <script type="math/tex">D(.)</script> is the decoder.</p>
+
+
+<figure class="smaller-img">
+      <d-figure><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\context_encode1.png"></d-figure>
+<figcaption><i>Fig. 8. Illustration of context encoder.</i></figcaption>
+    </figure>
+
+
+<p style="font-size:20px;"><b><u>Cross Channel Prediction (Split-Brain Autoencoders)</u></b><p>
+
+<p>Split Brain Autoencoders are a straightforward modification of the traditional autoencoder architecture for unsupervised representation learning. Split Brain Autoencoders work on the methodology of splitting and complimentary predictions, to reconstruct the original picture, i.e., they only hide a subset of channels. <dt-cite key="zhang2016splitbrain"></dt-cite>.</p></p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\split-brain-autoencoder.png"; style="width: 65%;" class="center"></center></d-figure>
+<figcaption><i>Fig. 9. Illustration of split-brain autoencoder. (Image source: <dt-cite key="zhang2016splitbrain"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>The method annexes a split to the network, resulting in two separate sub-networks where each sub-network is trained to perform a strenuous task–predicting one subset of the data channels from the other. In all, the sub-networks extract features from the entire input signal, and the predicted channels are then combined to get the reconstruction of the original image. Based on the losses(either L1 loss or cross-entropy if color values are quantized) comparing the original and the reconstructed images, the models are improved.</p>
+
+<p>Let the data tensor <script type="math/tex">\mathbf{x} \in \mathbb{R}^{h \times w \times \vert C \vert }</script> with <script type="math/tex">C</script> color channels be the input for the <script type="math/tex">l</script>-th layer of the network. It is split into two disjoint parts, <script type="math/tex">\mathbf{x}_1 \in \mathbb{R}^{h \times w \times \vert C_1 \vert}</script> and <script type="math/tex">\mathbf{x}_2 \in \mathbb{R}^{h \times w \times \vert C_2 \vert}</script>, where <script type="math/tex">C_1 , C_2 \subseteq C</script>. Then two sub-networks are trained to do two complementary predictions: one network <script type="math/tex">f_1</script> predicts <script type="math/tex">\mathbf{x}_2</script> from <script type="math/tex">\mathbf{x}_1</script> and the other network <script type="math/tex">f_1</script> predicts <script type="math/tex">\mathbf{x}_1</script> from <script type="math/tex">\mathbf{x}_2</script>. The loss is either L1 loss or cross entropy if color values are quantized.</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Split-brain-Autoencoders.png"></d-figure>
+<figcaption><i>Fig. 10. The Lab input image is divided into a and b channels, which contains color information, and the L channel, which includes grayscale information. Considering this, both the networks are trained independently to predict the complimentary results, which on combining give the reconstruction of the original image. (Image source: <dt-cite key="zhang2016splitbrain"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Research and studies have shown that the latent space of such generative models captures semantic variation in the data, i.e., they can learn to map from simple latent variables to arbitrarily complex data distributions. The same procedure can be  applied to the scale of depth. The color and depth channels are used for complimentary predictions and reconstruction of the original image.</p>
+
+<p style="font-size:20px;"><b><u>Examplar CNN'S</u></b><p>
+
+<p>Slightly distorted images are treated the same as original, and thus the learned features are expected to be invariant to distortion.Expecting that small distortion on an image does not modify its original semantic meaning or geometric forms.</p>
+
+<p>It is a procedure for training a CNN that does not rely on any labeled data but instead uses a surrogate task automatically generated from the unlabeled images. The surrogate task is designed to generate generic features that are descriptive and robust to typical variations in the data as each patch is distorted by applying a variety of random transformations (i.e., translation, rotation, scaling, etc.).</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\examplar-cnn.png"></d-figure>
+<figcaption><i>Fig. 11. First one is the original patch of a cute deer. Random transformations are applied, resulting in a variety of distorted patches. (Image source: <dt-cite key="dosovitskiy2014discriminative"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>The variation is produced by randomly applying transformations to a 'seed' image. The surrogate class comprises of this image and its transformed versions. The resulting distorted patches are considered to belong to the same surrogate class. The pretext task designed discriminates between a set of surrogate classes. We have the freedom to create as many surrogate classes as we want arbitrarily. In contrast to previous data augmentation approaches, only a single seeding sample is needed to build such a class. Consequently, thus trained networks is an Exemplar-CNN. <dt-cite key="dosovitskiy2014discriminative"></dt-cite></p>
+
+<p style="font-size:20px;"><b><u>Denoising Autoencoders And Bidirectional GANs</u></b><p>
+
+<p>Generative modeling focuses on producing a representation or abstraction of observed phenomena or target variables calculated from observations. The pretext task in self-supervised generative modeling is to reconstruct the original input while learning meaningful dormant representations. <dt-cite key="vincent08"></dt-cite></p>
+
+<p>Humans can recognize partially occluded or corrupted images. The ability of humans to form a high-level concept associated with multiple modalities (such as image and sound) and the power to recall it even when some patterns are missing is something that compelled the making of <b>Denoising Autoencoders</b>, indicating that critical visual features can be extracted and separated from the noise.</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\12.png"></d-figure>
+<figcaption><i>Fig. 12. Illustration of denoising autoencoder model architecture. (Image source:  Lil'Log)</i></figcaption>
+    </figure>
+
+<p>Denoising Autoencoders are designed for the objective of undoing a corruption process and learning latent representations of the input that are sturdy to small irrelevant changes in input data. To "repair" the partially destroyed input, the denoising autoencoder has to discover and capture the relationship between dimensions of input to infer missing pieces.
+</p>
+
+<p>For high dimensional input with high redundancy, like images and sound, the model is likely to depend on shreds of evidence gathered from a combination of multiple-input dimensions to recover the denoised version instead of overfitting one particular dimension. This lays a good foundation for learning robust latent representation.</p>
+
+<p><b>BiGANS :</b>
+<br>Bidirectional Generative Adversarial Networks (BiGANs) were proposed to learn the inverse mapping, i.e., Projecting data back into the latent space. <dt-cite key="donahue2016adversarial"></dt-cite></p>
+
+<p>Bidirectional GANs introduces an additional encoder <script type="math/tex">E(.)</script> to learn the mappings from the input to the latent variable <script type="math/tex">\mathbf{z}</script>. The discriminator <script type="math/tex">D(.)</script> predicts in the joint space of the input data and latent representation, <script type="math/tex">(\mathbf{x}, \mathbf{z})</script>, to tell apart the generated pair <script type="math/tex">(\mathbf{x}, E(\mathbf{x}))</script> from the real one <script type="math/tex">(G(\mathbf{z}), \mathbf{z})</script>. The model is trained to optimize the objective: <script type="math/tex">\min_{G, E} \max_D V(D, E, G)</script>, where the generator <script type="math/tex">G</script> and the encoder <script type="math/tex">E</script> learn to generate data and latent variables that are realistic enough to confuse the discriminator and at the same time the discriminator <script type="math/tex">D</script> tries to differentiate real and generated data.</p>
+
+<script type="math/tex; mode=display">V(D, E, G) = \mathbb{E}_{\mathbf{x} \sim p_\mathbf{x}} [ \underbrace{\mathbb{E}_{\mathbf{z} \sim p_E(.\vert\mathbf{x})}[\log D(\mathbf{x}, \mathbf{z})]}_{\log D(\text{real})} ] + \mathbb{E}_{\mathbf{z} \sim p_\mathbf{z}} [ \underbrace{\mathbb{E}_{\mathbf{x} \sim p_G(.\vert\mathbf{z})}[\log 1 - D(\mathbf{x}, \mathbf{z})]}_{\log(1- D(\text{fake}))}) ]</script>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\13.png"></d-figure>
+<figcaption><i>Fig. 13. llustration of working of Bidirectional GAN. (Image source: <dt-cite key="donahue2016adversarial"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p style="font-size:20px;"><b><u>Image Clustering</u></b><p>
+
+<p>Clustering has the advantage of requiring minimal domain knowledge and no specific signal from the inputs, making DeepCluster an excellent model to learn deep representations specific to domains where annotations are scarce. <dt-cite key="caron2018deep"></dt-cite></p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\10.png" style="width: 75%;"></center></d-figure>
+<figcaption><i>Fig. 14. llustration of  Deep Cluster Architecture</i></figcaption>
+    </figure>
+
+<p>DeepCluster is a self-supervised method proposed by Caron et al. that learns the neural network parameters in conjunction with clustering assignments of the resulting features. Using standard clustering algorithms like k-means, DeepCluster iteratively groups the features and using the subsequent assignments as supervision weights of the network are updated.</p>
+
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\9.png"></d-figure>
+<figcaption><i>Fig. 15. llustration of  Deep Cluster workflow</i></figcaption>
+    </figure>
+
+<p>Therefore, It is possible to obtain useful general-purpose visual features with a clustering framework.</p>
+
+<p style="font-size:20px;"><b><u>Synthetic Imagery</u></b><p>
+
+<p>Most of the existing methods learn only a single task. Meanwhile, the model learns to perform well at that task, it may, in the process, lose its focus on the intended task, i.e., to learn high-level semantic features.
+</p>
+
+
+<p>Recent self-supervised methods which learn from multiple tasks either require a sophisticated model to account for the potentially significant differences in the input data type (e.g., in case of images grayscale vs. color) and tasks (e.g., in case of video-based relative position vs. motion prediction) or is designed specifically for specific tasks and thus has difficulty generalizing to more complex real-world Imagery.</p>
+
+<p>The pretext task is performed by a self-supervised deep network that jointly learns various(multiple) tasks for domain adaptor and visual representation learning, which cuts down the feature space domain gap between real and synthetic images to a minimum. <dt-cite key="ren2017crossdomain"></dt-cite></p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Synthetic-Imagry.png"></d-figure>
+<figcaption><i>Fig. 16. llustration of  Synthetic Imagery Architecture</i></figcaption>
+    </figure>
+
+<p>It is so common to learn from multiple sources of information in the case of human learning. Synthetic Imagery aims to use a similar strategy for visual representation learning by training a model to learn several parallel tasks jointly over SYNTHETIC IMAGES. Therefore on dealing with the natural images would require access to different types of annotations (e.g., depth, surface normal, segmentations) for each image, which proves to be both expensive and time-consuming to collect.</p>
+
+
+<p>Why Synthetic images?
+<br>1.) Computer Graphics (CG) imagery is very realistic.
+<br>2.) Rendering synthetic data at scale is more accessible and cheaper than collecting and annotating photos from the real world.
+<br>3.) Full Control of the virtual world.</p>
+
+<p>Since the same scene can be changed in various ways without changing the semantics, thus, these properties prove to be useful for learning a robust, invariant visual representation.</p>  
+
+<p>Learning general-purpose features useful for various tasks, Ren et al. proposed an architecture weight-shared ConvNets are trained simultaneously to solve three different tasks. Specifically, the network takes a single synthetic image as input and computes its corresponding instance contour map, depth map, and surface normal map.  After that, A discriminator learns to classify whether ConvNet features fed are of a synthetic image or a real image. Due to adversarial nature, the shared representations between real and synthetic images get better.</p>
+
+
+<p style="font-size:24px;"><b>Category 2: <u>Common Sense Tasks</u></b><p>
+
+<p>Common sense can be described as "The skill for seeing things as they are, and doing things as they are supposed to be done". It is the basic ability to perceive, understand, and judge what is shared by nearly all people. In the case of Machines, Common sense tasks include object recognition, positioning of the object and text mining. To perform the commonsense task, the machine has to be aware of the same concepts that an individual, who possess commonsense knowledge, recognizes. Training the machine to solve common sense problems forces it to learn and understand the visual representations, which can further be used for the downstream tasks.</p>
+
+
+<p style="font-size:20px;"><b><u>Image Jigsaw Puzzle</u></b><p>
+
+<p>Noroozi & Favaro (2016) <dt-cite key="noroozi2016unsupervised"></dt-cite> designed a jigsaw puzzle game as a pretext task: The model is trained to place 9 shuffled patches of the image back to the original locations. Since there can be thousands of permutations, therefore, to overcome this, only a subset of possible permutations is used, such as N permutations with the highest hamming distance(i.e., the number of different tile locations between 2 permutations P1 and P2).</p>
+
+<p>The Jigsaw puzzle approach ignores similarities between tiles (such as color and texture), as they do not help their localization, and focuses instead on their differences.  The problem is solved by observing all the tiles simultaneously, which allows the trained network to intersect all enigmatic sets and possibly reduce them to a singleton. </p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\self-sup-jigsaw-puzzle.png"></d-figure>
+<figcaption><i>Fig. 17. Illustration of self-supervised learning by solving jigsaw puzzle. (Image source: <dt-cite key="noroozi2016unsupervised"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>The network first computes features based only on the pixels within each tile. Then, it finds the parts' arrangement just by using these features. The objective is to force the network to learn features that are as representative and discriminative as possible of each object part to determine their relative location.</p>
+
+<p>To recover back the original patches, By following the principles of self-supervision, Noroozi et al. proposed a convolutional neural network (CNN) called the context-free network (CFN), a siamese-ennead CNN that can be trained to solve Jigsaw puzzles as a pretext task, which requires no manual labeling, and then later repurposed to solve object classification and detection. The CFN takes image tiles as input and explicitly limits the receptive field (or context) of its early processing units to one tile. By training the CFN to solve Jigsaw puzzles, it learns both feature mapping of object parts and their correct spatial arrangement; it also came out to be that the learned features captured semantically relevant content that is useful for downstream tasks in classification and detection.</p>
+
+<p>Another idea is the use of artificial supervision signals based on <b>counting "feature"</b> or <b>"visual primitives,"</b> which can be summed up over multiple patches and compared across different patches. This supervision signal is obtained from an equivariance relation, redundant of any manual annotation. It is relating the transformations of images to transformations of the representations. More specifically, looking for the representation that satisfies such equivariance rather than the transformations that match a given representation.</p>
+
+
+<p>The paper (Noroozi, et al, 2017) <dt-cite key="noroozi2017representation"></dt-cite> considers two image transformations in counting: scaling and tiling.
+<ul style="line-height:1.5;">
+<li><b>Scaling</b>: Maneuver the fact that the number of visual primitives should be invariant to scale. If an image is scaled up by 2x, the number of visual primitives should stay the same.</li>
+<li><b>Tiling</b>: The total number of visual primitives in each tile should equate to that in the whole image. If an image is tiled into a 2x2 grid, the number of visual primitives is expected to be the sum, 4 times the original feature counts.</li>
+</ul></p>
+
+
+<p>The model learns a feature encoder <script type="math/tex">\phi(.)</script> using the above feature counting relationship. Given an input image <script type="math/tex">\mathbf{x} \in \mathbb{R}^{m \times n \times 3}</script>, considering two types of transformation operators:</p>
+<ol>
+  <li>Downsampling operator, <script type="math/tex">D: \mathbb{R}^{m \times n \times 3} \mapsto \mathbb{R}^{\frac{m}{2} \times \frac{n}{2} \times 3}</script>: downsample by a factor of 2</li>
+  <li>Tiling operator <script type="math/tex">T_i: \mathbb{R}^{m \times n \times 3} \mapsto \mathbb{R}^{\frac{m}{2} \times \frac{n}{2} \times 3}</script>: extract the <script type="math/tex">i</script>-th tile from a 2x2 grid of the image.</li>
+</ol>
+
+<p>We expect to learn:</p>
+
+<script type="math/tex; mode=display">\phi(\mathbf{x}) = \phi(D \circ \mathbf{x}) = \sum_{i=1}^4 \phi(T_i \circ \mathbf{x})</script>
+
+<p><a href="#counting-feature-loss"></a>Thus the MSE loss is: <script type="math/tex">\mathcal{L}_\text{feat} = \|\phi(D \circ \mathbf{x}) - \sum_{i=1}^4 \phi(T_i \circ \mathbf{x})\|^2_2</script>. To avoid trivial solution <script type="math/tex">\phi(\mathbf{x}) = \mathbf{0}, \forall{\mathbf{x}}</script>, another loss term is added to encourage the difference between features of two different images: <script type="math/tex">\mathcal{L}_\text{diff} = \max(0, c -\|\phi(D \circ \mathbf{y}) - \sum_{i=1}^4 \phi(T_i \circ \mathbf{x})\|^2_2)</script>, where <script type="math/tex">\mathbf{y}</script> is another input image different from <script type="math/tex">\mathbf{x}</script> and <script type="math/tex">c</script> is a scalar constant. The final loss is:</p>
+
+<script type="math/tex; mode=display">\mathcal{L} 
+= \mathcal{L}_\text{feat} + \mathcal{L}_\text{diff} 
+= \|\phi(D \circ \mathbf{x}) - \sum_{i=1}^4 \phi(T_i \circ \mathbf{x})\|^2_2 + \max(0, M -\|\phi(D \circ \mathbf{y}) - \sum_{i=1}^4 \phi(T_i \circ \mathbf{x})\|^2_2)</script>
+
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\self-sup-counting-features.png" style="width: 60%;"></center></d-figure>
+<figcaption><i>Fig. 18. Self-supervised representation learning by counting features. (Image source: <dt-cite key="noroozi2017representation"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p style="font-size:20px;"><b><u>Context Prediction (Relative Positioning)</u></b><p>
+
+<p>Recently, new computer vision methods have anchored large datasets of millions of labeled examples to learn rich and high-performance visual representations. Still, efforts to scale up these methods to indeed hundreds of billions of images are thwarted by the transparent charges of the human annotation required.</p>
+
+<p>How about training pairs of (image-patch, neighbor) by randomly taking a pair of patches from the image from extensive, unlabeled image collection?</p>
+
+<p>This category of self-supervised learning tasks given only an extensive, unlabeled image collection from which random pairs of patches are extracted from each image training a convolutional neural net to predict the second patch position relative to the first. Performing well on this task requires the model to understand objects' spatial context to tell the relative position between parts.</p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Relative positioning.png" style="width: 75%;" ></center></d-figure>
+<figcaption><i>Fig. 19. Illustration of self-supervised learning by predicting the relative position of two random patches.</i></figcaption>
+    </figure>
+
+<p>The training patches are sampled in the following way: <dt-cite key="doersch2015unsupervised"></dt-cite></p>
+
+<p >1.) The first patch is selected at random without any reference to image content.
+<br>2.) Considering that the first patch is placed in the middle of a 3x3 grid, the second patch is sampled from its 8 neighboring locations around it.
+<br>3.) To avoid the model only catching trivial low-level signals, such as connecting a straight line across the boundary or matching local patterns, additional noise is introduced by: 
+<ul style="line-height: 1.5;" >
+<li>Add gaps between patches.</li>
+<li>Small jitters up to 7 pixels.</li>
+<li>Randomly downsample some patches to as little as 100 total pixels, and then upsampling it, to build robustness to pixelation.</li>
+<li>Shift green and magenta toward gray or randomly drop 2 of 3 color channels (to prevent ConvNet to learn to localize a patch relative to the lens itself based on Chromatic aberration.</li></ul>
+</p>
+
+<p>4.) The model is trained to predict which one of 8 neighboring locations the second patch is selected from, a classification problem over 8 classes.</p>
+
+<p style="font-size:20px;"><b><u>Geometric Transformation Recognition(Rotation)</u></b><p>
+
+<p>Utilizing the visual information present on the images or videos to provide a surrogate supervision signal for feature learning. <dt-cite key="gidaris2018unsupervised"></dt-cite></p>
+
+<p>Rotation is another interesting way to let the machine learn the semantics of the input image; this simple task provides a potent supervisory signal for semantic feature learning, as swivel semantic content stays unchanged. It is A 4-class classification problem where each input image is first rotated by a multiple of 90 degrees at random corresponding to [0,90,180,270,360] degrees.</p>
+
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Rotation.png" style=" width: 90%;"></center></d-figure>
+<figcaption><i>Fig. 20. Illustration of self-supervised learning by rotating the entire input images. The model learns to predict which rotation is applied.</i></figcaption>
+    </figure>
+
+<p>Learning general-purpose features useful for various tasks, Ren et al. proposed an architecture weight-shared ConvNets are trained simultaneously to solve three different tasks. Specifically, the network takes a single synthetic image as input and computes its corresponding instance contour map, depth map, and surface normal map.  After that, A discriminator learns to classify whether ConvNet features fed are of a synthetic image or a real image. Due to adversarial nature, the shared representations between real and synthetic images get better.</p>
+
+<p style="font-size:24px;"><b>Category 3: <u>Contrastive Predictive Learning Based.</u></b><p>
+
+<p>The critical insight of contrastive predictive learning is to discover such representations by predicting the future in latent space by using powerful autoregressive models.</p>
+
+<p style="font-size:20px;"><b><u>Contrastive Predictive Coding</u></b><p>
+
+<p>A universal unsupervised learning approach to extricating useful representations from high-dimensional data using a probabilistic contrastive loss which induce the latent space to capture information that is maximally useful for predicting future samples also making the model tractable by using negative sampling is called Contrastive Predictive Coding. <dt-cite key="oord2018representation"></dt-cite></p>
+
+<p>Uni-modal losses as generative models stall at modelling high dimensional data because they ignore the context. Also, considering that an image can be a warehouse of thousands of bits of information than a few bits for class labels, for example, suggests that modelling probability of target given context may not be optimal. From here, transpires the idea of using more compact representations and looking at the shared information between the target and the context.
+</p>
+
+<p>CPC uses an encoder to compress the input data <script type="math/tex">z_t = g_\text{enc}(x_t)</script> and an <em>autoregressive</em> decoder to learn the high-level context that are potentially shared across future predictions, <script type="math/tex">c_t = g_\text{ar}(z_{\leq t})</script>. The end-to-end training relies on the NCE-inspired contrastive loss.</p>
+
+<p>While predicing future information, CPC is optimized to maximize the the mutual information between input <script type="math/tex">x</script> and context vector <script type="math/tex">c</script>:</p>
+
+<script type="math/tex; mode=display">I(x; c) = \sum_{x, c} p(x, c) \log\frac{p(x, c)}{p(x)p(c)} = \sum_{x, c} p(x, c)\log\frac{p(x|c)}{p(x)}</script>
+
+<p>Rather than modeling the future observations <script type="math/tex">p_k(x_{t+k} \vert c_t)</script> directly (which could be fairly expensive), CPC models a density function to preserve the mutual information between <script type="math/tex">x_{t+k}</script> and <script type="math/tex">c_t</script>:</p>
+
+<script type="math/tex; mode=display">f_k(x_{t+k}, c_t) = \exp(z_{t+k}^\top W_k c_t) \propto \frac{p(x_{t+k}|c_t)}{p(x_{t+k})}</script>
+
+<p>where <script type="math/tex">f_k</script> can be unnormalized and a linear transformation <script type="math/tex">W_k^\top c_t</script> is used for the prediction with a different <script type="math/tex">W_k</script> matrix for every step <script type="math/tex">k</script>.</p>
+
+<p>Given a set of <script type="math/tex">N</script> random samples <script type="math/tex">X = \{x_1, \dots, x_N\}</script> containing only one positive sample <script type="math/tex">x_t \sim p(x_{t+k} \vert c_t)</script> and <script type="math/tex">N-1</script> negative samples <script type="math/tex">x_{i \neq t} \sim p(x_{t+k})</script>, the cross-entropy loss for classifying the positive sample (where <script type="math/tex">\frac{f_k}{\sum f_k}</script> is the prediction) correctly is:</p>
+
+<script type="math/tex; mode=display">\mathcal{L}_N = - \mathbb{E}_X \Big[\log \frac{f_k(x_{t+k}, c_t)}{\sum_{i=1}^N f_k (x_i, c_t)}\Big]</script>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\CPC-image.png"></d-figure>
+<figcaption><i>Fig. 21. Illustration of applying Contrastive Predictive Coding on images. (Image source: <dt-cite key="oord2018representation"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>The Key :<br><br>
+C - <b>Contrastive</b>: The Model is trained using a contrastive approach; that is, the chief            
+      model has to differentiate between right and wrong data sequences.<br>
+P  - <b>Predictive</b>: The model has to come up with future patterns, provided the 
+       present context.<br>
+C - <b>Coding</b>: The model carries out this prediction in a latent space, remodeling code   
+      vectors into other code vectors. </p>
+
+<p>When applied to images, the original formulation of CPC operates by predicting the representations of patches below a certain position. These predictions are evaluated using a contrastive loss in which the network must correctly classify the 'future' representation amongst a set of unrelated 'negative' representations. This avoids trivial solutions such as representing all patches with a constant vector, as would be the case with a mean squared error loss.</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\CPC-audio.png"></d-figure>
+<figcaption><i>Fig. 22. Illustration of applying Contrastive Predictive Coding on the audio input. (Image source: <dt-cite key="oord2018representation"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>CPC is a contrastive representation learning method that maximizes the mutual information between spatially removed latent representations with InfoNCE, a loss function based on Noise Contrastive Estimation (NCE).</p>
+
+<p>CPC compresses high dimensional data into compact embedding space and then uses auto-regressive models to make predictions by many steps in the future. CPC has to predict the following item in a sequence using only an embedded representation of the data, provided by an encoder. To solve the task, the encoder has to acquire a significant representation of the data space. The trained encoder then can be used for other downstream tasks like supervised classification.</p>
+
+<p style="font-size:20px;"><b><u>Momentum Contrast</u></b><p>
+
+<p>MoCo is a method of building large and consistent dynamic dictionaries for unsupervised learning with a contrastive loss <dt-cite key="he2019momentum"></dt-cite>. The "keys" (tokens) in the dictionary are sampled from data (e.g., images or patches) and represented by an encoder network, which is trained to perform dictionary look-up: an encoded "query" should be similar to its matching key and dissimilar to others. Moreover, learning is formulated by minimizing a contrastive loss.</p>
+
+<p>Dictionary is maintained as a queue of data samples: the encoded representations of the current mini-batch are enqueued, and the oldest are dequeued. The queue decouples the dictionary size from the mini-batch size, allowing it to be significantly large. Moreover, as the dictionary keys come from the several preceding mini-batches, a slowly progressing key encoder, implemented as a momentum-based moving average of the query encoder, is proposed to maintain consistency.</p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\MoCo.png" style="width: 70%;"></center></d-figure>
+<figcaption><i>Fig. 23. Illustration of how Momentum Contrast (MoCo) learns visual representations. (Image source: <dt-cite key="he2019momentum"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Momentum Contrast (MoCo) trains a visual representation encoder by matching an encoded query <script type="math/tex">q</script> to a dictionary of encoded keys using a contrastive loss. The dictionary keys <script type="math/tex">\{k_0,k_1, k_2, \dots \}</script> are defined on-the-fly by a set of data samples.
+The dictionary is built as a queue, with the current mini-batch enqueued and the oldest mini-batch dequeued, decoupling it from the mini-batch size. The keys are encoded by a slowly progressing encoder, driven by a momentum update with the query encoder. This method enables a significant and consistent dictionary for learning visual representations.</p>
+
+<p>Given a query sample <script type="math/tex">x_q</script>, we get a query representation <script type="math/tex">q</script> through an encoder <script type="math/tex">f_q</script>: <script type="math/tex">q = f_q(x_q)</script>. Key samples are encoded by a momentum encoder <script type="math/tex">k_i = f_k (x^k_i)</script> to produce a list of key representations <script type="math/tex">\{k_1, k_2, \dots \}</script> in the dictionary. Let’s assume among them there is a single <em>positive</em> key <script type="math/tex">k^+</script> in the dictionary that matches <script type="math/tex">q</script>. In the paper, <script type="math/tex">k^+</script> is created using a copy of <script type="math/tex">x_q</script> with different augmentation. Then the <a href="#contrastive-predictive-coding">InfoNCE</a> contrastive loss is applied for one positive and <script type="math/tex">K</script> negative samples:</p>
+
+<script type="math/tex; mode=display">\mathcal{L}_q = - \log \frac{\exp(q \cdot k^+ / \tau)}{\sum_{i=0}^K \exp(q \cdot k_i / \tau)}</script>
+
+<p>where <script type="math/tex">\tau</script> is a temperature hyper-parameter.</p>
+
+
+<p style="font-size:20px;"><b><u>SimCLR</u></b><p>
+
+<p>SimCLR uses contrastive learning to maximize agreement between 2 augmented versions of the same image via a contrastive loss in the latent space.</p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\SimCLR.png" style="width: 55%;"></center></d-figure>
+<figcaption><i>Fig. 24. A simple framework for contrastive learning of visual representations. (Image source: <dt-cite key="chen2020simple"></dt-cite>). Two different data augmentation operators are sampled from the same family of augmentations (t ∼ T and t' ∼ T ) and applied to each data example to receive two correlated views. A projection head g(·) and a base encoder network f(·) are trained to maximize agreement using a contrastive loss. After training is completed, the projection head g(·) is thrown away, uses encoder f(·), and represents h for downstream tasks.</i></figcaption>
+    </figure>
+
+<p>The framework includes the following major components :</p>
+
+<p>(1) Randomly sample a mini-batch of <script type="math/tex">n</script> samples and each sample is applied with two different data augmentation operations, resulting in <script type="math/tex">2n</script> augmented samples in total.</p>
+
+<script type="math/tex; mode=display">\tilde{\mathbf{x}}_i = t(\mathbf{x}),\quad\tilde{\mathbf{x}}_j = t'(\mathbf{x}),\quad t, t' \sim \mathcal{T}</script>
+
+<p>where two separate data augmentation operators, <script type="math/tex">t</script> and <script type="math/tex">t’</script>, are sampled from the same family of augmentations <script type="math/tex">\mathcal{T}</script>. Data augmentation includes random crop, resize with random flip, color distortions, and Gaussian blur.</p>
+
+<p>(2) Given one positive pair, other <script type="math/tex">2(n-1)</script> data points are treated as negative samples. The representation is produced by a base encoder <script type="math/tex">f(.)</script>:</p>
+
+<script type="math/tex; mode=display">\mathbf{h}_i = f(\tilde{\mathbf{x}}_i),\quad \mathbf{h}_j = f(\tilde{\mathbf{x}}_j)</script>
+
+<p>(3) The contrastive loss is defined using cosine similarity <script type="math/tex">\text{sim}(.,.)</script>. Note that the loss operates on top of an extra projection of the representation via <script type="math/tex">g(.)</script> rather than on the representation <script type="math/tex">\mathbf{h}</script> directly. But only the representation <script type="math/tex">\mathbf{h}</script> is used for downstream tasks.</p>
+
+
+<p style="font-size:20px;"><b><u>Bootstrap Your Own Latent</u></b><p>
+
+<p>Bootstrap Your Own Latent (BYOL) <dt-cite key="grill2020bootstrap"></dt-cite>, a new algorithmic approach for self-supervised learning of image representations without using negative pairs, achieves higher performance than state-of-the-art contrastive methods.</p>
+
+<p>Not relying on negative pairs is one of the leading reasons for improved robustness. BYOL relies on two online neural networks and target networks; the networks interact and learn from each other. From the perspective of augmentation of an image, the online network is trained to predict the corresponding image's target network representation under a distinct augmented view. Consequently, updating the target network with a slow-moving average of the online network.</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\BYOL.png"></d-figure>
+<figcaption><i>Fig. 25. Illustration of BYOL's architectutre</i></figcaption>
+    </figure>
+
+<p>During self-supervised training, BYOL uses the following image augmentations : 
+
+<ul>
+<li>Random cropping: a random patch of the image is selected, with an area uniformly sampled between 8% and 100% of that of the original image, and an aspect ratio logarithmically sampled between 3/4 and 4/3. This patch is then resized to the target size of 224 × 224 using bicubic interpolation;</li>
+<li>Optional left-right flip;</li>
+<li>Color jittering: the brightness, contrast, saturation, and hue of the image are shifted by a uniformly random offset applied on all the same image pixels. The order in which these shifts are performed is randomly selected for each patch; 
+Color dropping: an optional conversion to grayscale. When applied, output intensity for a pixel (r, g, b) corresponds to its luma component, computed as 0.2989r + 0.5870g + 0.1140b;</li>
+<li>Gaussian blurring: for a 224×224 image, a square Gaussian kernel of size 23×23 is used, with a standard deviation uniformly sampled over [0.1, 2.0];</li>
+<li>Solarization: an optional color transformation for pixels with values in [0, 1].</li></ul>
+</p>
+
+<h2><b>Video-Based</b></h2>
+
+<ul class="table-of-content-2" id="markdown-toc" style="line-height:0.5;" >
+  <li>Tracking</li>
+  <li>Video Colorization</li>
+<li>Frame Order Verification</li>
+</ul>
+
+<p>A video contains a sequence of semantically related frames. Frames closer in time are more correlated than frames further away from each other, whereas the frame's order describes specific reasoning and physical logic behind it. A typical workflow is to train a model on one or multiple pretext tasks with unlabelled videos and then feed one intermediate feature layer of this model to fine-tune a simple model on downstream tasks of segmentation, action classification,  or object tracking.</p>
+
+<p style="font-size:20px;"><b><u>Tracking</u></b><p>
+
+<p>Static images might not have enough information to learn an excellent visual representation. Humans master their visual representations not from millions of static images but years of dynamic sensory inputs.</p>
+ 
+<p>A series of video frames traces the movement of an object. Therefore, two patches connected by a track should have a similar visual representation in latent feature space since they seemingly belong to the same object. By tracking millions of "moving" patches in hundreds of thousands of unlabeled videos from the web, bringing similar learning capabilities to CNN's, Wang & Gupta, 2015 <dt-cite key="wang2015unsupervised"></dt-cite> proposed a way of unsupervised visual representation learning by tracking moving objects in videos.</p>
+
+<p>To learn this feature space, a Siamese-triplet network is designed. A Siamese-triplet network consists of three core networks that share the same parameters.
+ </p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Siamese_network.png" style="width: 65%;"></center></d-figure>
+<figcaption><i>Fig. 26. Illustration of Siamese Triplet Network</i></figcaption>
+    </figure>
+
+<p>Explicitly, patches with motion are tracked over a small time window (e.g., 30 or 25 frames). The first patch <script type="math/tex">\mathbf{x}</script> and the last patch <script type="math/tex">\mathbf{x}^+</script> are selected and used as training data points. Since we track these patches using the KCF tracker, we comprehend that the first and last tracked frames agree to a similar instance of the moving object or object part.</p>
+
+
+<p>The model learns the representation by enforcing the distance between two tracked patches to be closer than the distance between the first patch and a random one in the feature space, <script type="math/tex">D(\mathbf{x}, \mathbf{x}^-)) > D(\mathbf{x}, \mathbf{x}^+)</script>, where <script type="math/tex">D(.)</script> is the cosine distance,</p>
+
+<script type="math/tex; mode=display">D(\mathbf{x}_1, \mathbf{x}_2) = 1 - \frac{f(\mathbf{x}_1) f(\mathbf{x}_2)}{\|f(\mathbf{x}_1)\| \|f(\mathbf{x}_2\|)}</script>
+
+<p>The loss function is:</p>
+
+<script type="math/tex; mode=display">\mathcal{L}(\mathbf{x}, \mathbf{x}^+, \mathbf{x}^-) 
+= \max\big(0, D(\mathbf{x}, \mathbf{x}^+) - D(\mathbf{x}, \mathbf{x}^-) + M\big) + \text{weight decay regularization term}</script>
+
+<p>where <script type="math/tex">M</script> is a scalar constant controlling for the minimum gap between two distances; <script type="math/tex">M=0.5</script> in the paper. The loss enforces <script type="math/tex">D(\mathbf{x}, \mathbf{x}^-) >= D(\mathbf{x}, \mathbf{x}^+) + M</script> at the optimal case.</p>
+
+<p><a href="#triplet-loss"></a>This form of loss function is also known as <a href="https://arxiv.org/abs/1503.03832">triplet loss</a> in the face recognition task, in which the dataset contains images of multiple people from multiple camera angles. Let <script type="math/tex">\mathbf{x}^a</script> be an anchor image of a specific person, <script type="math/tex">\mathbf{x}^p</script> be a positive image of this same person from a different angle and <script type="math/tex">\mathbf{x}^n</script> be a negative image of a different person. In the embedding space, <script type="math/tex">\mathbf{x}^a</script> should be closer to <script type="math/tex">\mathbf{x}^p</script> than <script type="math/tex">\mathbf{x}^n</script>:</p>
+
+<script type="math/tex; mode=display">\mathcal{L}_\text{triplet}(\mathbf{x}^a, \mathbf{x}^p, \mathbf{x}^n) = \max(0, \|\phi(\mathbf{x}^a) - \phi(\mathbf{x}^p) \|_2^2 -  \|\phi(\mathbf{x}^a) - \phi(\mathbf{x}^n) \|_2^2 + M)</script>
+
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Tracking.png" style="width: 65%;"></center></d-figure>
+<figcaption><i>Fig. 27. Overview of learning representation by tracking objects in videos. (a) Identify moving patches in short traces; (b) Feed two related patched and one random patch into a conv network with shared weights. (c) The loss function enforces the distance between related patches to be closer than the distance between random patches. (Image source: <dt-cite key="wang2015unsupervised"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Therefore, any visual representation learned should keep these two data points close in the feature space. However, just this constraint does not suffice the trivial solution of all points mapping to a single point in feature space. Therefore, for training the CNN, a third random patch <script type="math/tex">\mathbf{x}^-</script> is sampled from multiple patches that violate the constraint(loss is maximum). Choosing this patch leads to more meaningful gradients for faster learning than randomly selected third patch triplets, making back-propagation inefficient. As training, the network with randomly selected triplets without any constraints converges fast since the task is easy to overfit.</p>
+
+<p>One prominent way to find patches of concern is by computing the optical flow and utilizing the high magnitude flow regions. However, since most of the videos are noisy with a lot of camera motion, it is arduous to localize moving objects using simple optical flow magnitude vectors.</p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Patch_selection.png" style="width: 65%;"></center></d-figure>
+<figcaption><i>Fig. 28. Relevant Patch Selection. (Image source: <dt-cite key="wang2015unsupervised"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Therefore, Relevant patches are tracked and extracted through a two-step unsupervised optical flow approach:<br><br>
+
+<b>1.</b> Obtain SURF interest points and use  Improved Dense Trajectories (IDT) to obtain each SURF point's motion. Since IDT applies a video stabilization(homography estimation) method, it reduces the problem caused by camera motion.<br><br>
+
+<b>2.</b> Given SURF interest points' trajectories, classify these points as moving if the flow magnitude is more than 0.5 pixels. Also rejecting frames if:
+Very few (< 0.25) SURF interest points classify as moving because it might be just noise
+The majority of SURF interest points (> 0.75) classify as moving as it corresponds to the moving camera.<br><br>
+
+Hard negative mining is applied, making the training more efficient and difficult, i.e., to search for random patches that maximize the loss and use them to do gradient updates. The aim is to learn a feature space such that the distance of the query patch is closer to the tracked patch than any other randomly sampled patch.</p>
+
+<p style="font-size:20px;"><b><u>Video Colorization</u></b><p>
+
+<p>Video colorization as a self-supervised learning problem was proposed by Vondrick et al. (2018) <dt-cite key="vondrick2018tracking"></dt-cite>, Considering that learning to colorize video will cause a tracker to emerge internally, which can then be applied directly to downstream tracking tasks without additional training or fine-tuning.</p>
+
+<p>Visual tracking is essential for video analysis tasks across recognition, geometry, and interaction. To use large amounts of unlabeled video to learn models for visual tracking without manual human supervision. However, unlike image-based coloriz-ation, instead of predicting the color directly from the grayscale frame, leveraging the natural temporal coherency of color across video frames (thus these two frames should not be too far apart in time), we constrain the colorization model to solve this task by learning to copy colors from a reference frame. This task causes the model to learn to track visual regions automatically. </p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\VC-2.png" style="width: 70%;"></d-figure>
+<figcaption><i>Fig. 29.  Video colorization by copying colors from a reference frame to target frames in grayscale. (Image source: <dt-cite key="vondrick2018tracking"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Let <script type="math/tex">c_i</script> be the true color of the <script type="math/tex">i-th</script> pixel in the reference frame and <script type="math/tex">c_j</script> be the color of <script type="math/tex">j</script>-th pixel in the target frame. The predicted color of <script type="math/tex">j</script>-th color in the target <script type="math/tex">\hat{c}_j</script> is a weighted sum of colors of all the pixels in reference, where the weighting term measures the similarity:</p>
+
+<script type="math/tex; mode=display">\hat{c}_j = \sum_i A_{ij} c_i \text{ where } A_{ij} = \frac{\exp(f_i f_j)}{\sum_{i'} \exp(f_{i'} f_j)}</script>
+
+<p>where <script type="math/tex">f</script> are learned embeddings for corresponding pixels; <script type="math/tex">i’</script> indexes all the pixels in the reference frame.</p>
+
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Video-colorization.png" style="width: 70%;"></center></d-figure>
+<figcaption><i>Fig. 30.  Self-supervised Tracking. (Image source: <dt-cite key="vondrick2018tracking"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>To summarise, learning to colorize video by pointing to a colorful reference frame causes a visual tracker to emerge automatically, which, based on how the reference frame is marked, can be leveraged for video segmentation and human pose tracking. Moreover, It suggests that improving the video colorization task may translate into improvements in self-supervised tracking. Since unlabeled video is abundant in full color, video colorization appears to be a powerful signal for video models' self-supervised learning.</p>
+
+<p style="font-size:20px;"><b><u>Frame Order Verification</u></b><p>
+
+<p>Learning from sequential data observation is a natural and implicit process for humans. Sequential data provides an abounding source of information in the form of auditory and visual percepts, and it informs both low-level cognitive tasks and high-level abilities like decision making and problem-solving. Video frames are usually positioned in chronological order, and competent representation should learn the correct sequence of frames. <dt-cite key="misra2016shuffle"></dt-cite></p>
+
+<p>The pretext task is to ascertain whether a sequence of frames from a video is in the correct temporal order. In sequential verification, the 'sequence's validity' is predicted, rather than individual items in the sequence. Therefore, Misra et al. 2016 explore whether a given sequence is ‘temporally valid,’ i.e., whether a sequence of video frames is in the correct temporal order.</p>
+
+<p>Determining the validity of a sequence requires reasoning about object transformations and relative locations through time. Which, in turn, forces the representation to capture object appearances and deformations. Feature representation learned using only the raw spatiotemporal signal naturally available in videos can be used for the downstream tasks.</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\frame-order-validation.png" ></d-figure>
+<figcaption><i>Fig. 31.  Overview of learning representation by validating the order of video frames. (Image source: <dt-cite key="misra2016shuffle"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Five frames <script type="math/tex">(f_a, f_b, f_c, f_d, f_e)</script> are sampled from a high motion temporal window in a video such that <script type="math/tex">a<b<c<d<e</script>. Positive instances are created using <script type="math/tex">(f_b, f_c, f_d)</script>, while negative instances are created using <script type="math/tex">(f_b, f_a, f_d)</script> and <script type="math/tex">(f_b, f_e, f_d)</script>. During training, the same beginning frame <script type="math/tex">f_b</script> and ending frame<script type="math/tex">f_d</script> are used while only changing the middle frame for both positive and negative examples. Since only the middle frame changes between training examples, the network is encouraged to focus on this signal to learn the subtle difference between positives and negatives, rather than irrelevant features. Positive and negative tuples are formed based on whether the three input frames are in the correct temporal order. The parameter <script type="math/tex">\tau_\max = \vert b-d \vert</script> controls the difficulty of positive training instances (i.e., higher → harder) and the parameter <script type="math/tex">\tau_\min = \min(\vert a-b \vert, \vert d-e \vert)</script> controls the difficulty of negatives training instances (i.e., lower → harder).</p>
+
+<p>The triplet Siamese network architecture has three parallel network stacks with shared weights up to the <script type="math/tex">fc7</script> layer. Each stack takes a frame as input and produces a representation at the <script type="math/tex">fc7</script> layer. Later, the concatenated <script type="math/tex">fc7</script> representations are applied to predict whether the input tuple is in the correct temporal order.</p> 
+
+<p>Such a simple sequential verification task captures important spatiotemporal signals in videos that can be used for the downstream tasks.</p>
+
+<p style="font-size:18px;"><b><u>-Odd-One-Out Network (O3N)</u></b><p>
+
+<p>Another approach that is based on video frame sequence validation is the Odd-One-Out Network (O3N). In this task, the machine learns by identifying the unrelated sampled subsequences from videos or odd elements from a set of otherwise related elements. To find the odd video clip, the machine has to compare all video clips, identify the regularities, and pick the one with irregularities. These types of tasks are known as analogical reasoning tasks. <dt-cite key="fern2016selfsupervised"></dt-cite></p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\O3n.png" ></d-figure>
+<figcaption><i>Fig. 32.  Illustration of odd-one-out networks for video representation learning. (Image source: <dt-cite key="fern2016selfsupervised"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Each training example comprises a problem composed of <script type="math/tex">N+1</script> elements (such as <script type="math/tex">N+1</script> video clips or images). Out of these <script type="math/tex">N+1</script> elements <script type="math/tex">N</script> are similar or related (e.g., rightly ordered set of frames coming from a video), and one is different or odd (e.g., unordered set of frames from a video). Both the odd element and the <script type="math/tex">N</script> coherent elements are presented to the learning machine. The learning machine is then trained to predict the odd element. To avoid a trivial solution, in each of the odd-one-out problems, the odd element is presented to the learning machine at random. CNN is used as the learning machine, a multi-branch neural network.</p>
+
+<p>During training, The network acquires features that solve the odd-one-out problem. As the network performs a rationalizing task about the validity of elements (e.g., video sub-sequences), the learned features are useful for many other related yet different downstream tasks.</p>
+
+<p style="font-size:18px;"><b><u>-Arrow Of Time</u></b><p>
+
+<p>Another idea to learn underlying representation is to predict the arrow of time (AoT) - whether a video is playing forward or backward (Wei et al., 2018). To predict the arrow of time, the model will learn both low-level physics (e.g., gravity; smoke rises; water flows downward.) and high-level semantics (e.g., horse riding; fish swimming).</p>
+
+<p>The requirement of a ConvNet with an extended temporal footprint, which also enables the learned features to be visualized and the model to have sufficient capacity to detect subtle temporal signals is fulfilled by the architecture referred to as “Temporal Class-Activation Map Network” (T-CAM) which accepts T groups, each containing several frames of optical flow. The convolution layer outputs from each group are concatenated and fed into a binary logistic regression to predict the arrow of time. <dt-cite key="wei2018learning"></dt-cite></p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\learning-arrow-of-time.png" ></d-figure>
+<figcaption><i>Fig. 33.  Overview of learning representation by predicting the arrow of time. (a) Conv features of multiple groups of frame sequences are concatenated. (b) The top level contains 3 conv layers and average pooling. (Image source: <dt-cite key="wei2018learning"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Videos, as collections of images, have additional artificial cues introduced during creation (e.g., camera motion), compression (e.g., inter-frame codec), or editing (e.g., black framing), which may be used to predict the arrow of time also they can lead to trivial classifier if not appropriately handled.
+<ul style="line-height: 1.5 ;">
+<li>Black frame regions present at the boundary may not be completely black after video compression. Therefore, resulting non-zero image intensities can cause different flow patterns for forward and backward temporal motion, providing an artificial cue for the AoT.</li>
+<li>The processing stage should stabilize the camera motion. Like vertical translation or zoom-in/out, significant camera motion also provides strong signals for the arrow of time but independent of content.</li>
+</ul>
+</p>
+
+
+<h2><b>Control-Based</b></h2>
+
+<ul class="table-of-content-2" id="markdown-toc" style="line-height:0.5;" >
+  <li>Multi-view Metric Learning</li>
+  <li>Autonomous Goal Generation</li>
+<li>Bisimulation</li>
+</ul>
+
+    <p>
+      Self-supervised representation learning has been showing great potential in case of RL policy in the real world, learning useful state embedding that can be used directly as input to a control policy to train robots.
+    </p>
+
+<p style="font-size:20px;"><b><u>Multi-view Metric Learning</u></b><p>
+
+<p style="font-size:18px;"><b><u>-Grasp2Vec</u></b><p>
+
+<p>Grasp2Vec <dt-cite key="jang2018grasp2vec"></dt-cite>, an object-centric visual embedding learned with self-supervision, aims to learn an object-centric vision representation based on object persistence: The representation of the scene should change predictably when an object is picked up by a robot and removed from the scene.</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\grasp2vec.png" ></d-figure>
+<figcaption><i>Fig. 34. Conceptual illustration of how grasp2vec learns an object-centric state embedding. (Image source: <dt-cite key="jang2018grasp2vec"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>When a robot grasps something in its environment and raises it out of the way, it could conclude that anything still visible (i.e., after grasping) was not part of what it grasped. Glancing at and picking up objects enables a robot to discover relation-ships between physical entities and their surrounding contexts. It can also see the object from a new angle or ook at its gripper. A robot without any human supervision can learn to distinguish pixels as graspable objects in an image and recognize particular objects across different poses by active interaction. Therefore, well structured visual representations can make the robot learn faster and can improve generalization.</p>
+
+<p>Simple conditions can be formulated from these observations that an object-centric representation should satisfy: the corresponding features to a scene should be approximately equivalent to the feature values for the same scene after removing an object, minus the feature value for that object. On training, a convolution neural network feature extractor based on this condition shows that it can capture individual object identity effectively and encode sets of objects in a scene without any human supervision.</p>
+
+<p>Let <script type="math/tex">\phi_s</script> and <script type="math/tex">\phi_o</script> be the embedding functions for the scene and the object respectively. The model learns the representation by minimizing the distance between <script type="math/tex">\phi_s(s_\text{pre}) - \phi_s(s_\text{post})</script> and <script type="math/tex">\phi_o(o)</script> using <em>n-pair loss</em>:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\mathcal{L}_\text{grasp2vec} &= \text{NPair}(\phi_s(s_\text{pre}) - \phi_s(s_\text{post}), \phi_o(o)) + \text{NPair}(\phi_o(o), \phi_s(s_\text{pre}) - \phi_s(s_\text{post})) \\
+\text{where }\text{NPair}(a, p) &= \sum_{i<B} -\log\frac{\exp(a_i^\top p_j)}{\sum_{j<B, i\neq j}\exp(a_i^\top p_j)} + \lambda (\|a_i\|_2^2 + \|p_i\|_2^2)
+\end{aligned} %]]></script>
+
+<p>where <script type="math/tex">B</script> refers to a batch of (anchor, positive) sample pairs.</p>
+
+<p>When framing representation learning as metric learning, <a href="https://papers.nips.cc/paper/6200-improved-deep-metric-learning-with-multi-class-n-pair-loss-objective"><strong>n-pair loss</strong></a> is a common choice. Rather than processing explicit a triple of (anchor, positive, negative) samples, the n-pairs loss treats all other positive instances in one mini-batch across pairs as negatives.</p>
+
+<p>The embedding function <script type="math/tex">\phi_o</script> works great for presenting a goal <script type="math/tex">g</script> with an image. The reward function that quantifies how close the actually grasped object <script type="math/tex">o</script> is close to the goal is defined as <script type="math/tex">r = \phi_o(g) \cdot \phi_o(o)</script>. Note that computing rewards only relies on the learned latent space and doesn’t involve ground truth positions, so it can be used for training on real robots.</p>
+
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\grasp2vec-attention-map.png" ></d-figure>
+<figcaption><i>Fig. 35. Localization results of grasp2vec embedding. The heatmap of localizing a goal object in a pre-grasping scene is defined as <script type="math/tex">\phi_o(o)^\top \phi_{s, \text{spatial}} (s_\text{pre})</script>, where <script type="math/tex">\phi_{s, \text{spatial}}</script> is the output of the last resnet block after ReLU. The fourth column is a failure case and the last three columns take real images as goals. (Image source: <dt-cite key="jang2018grasp2vec"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>To produce the triplet of images <script type="math/tex">(s_\text{pre}, s_\text{post}, o)</script> for training. The robot is administered to grasp any object <script type="math/tex">o</script> at random:
+<ul>
+<li><script type="math/tex">o</script> represents the image of the grasped object;</li>
+<li><script type="math/tex">s_\text{pre}</script> is an image of the scene before grasping the object, i.e., with the object o in the tray;</li>
+<li><script type="math/tex">s_\text{post}</script> is an image of the same scene after grasping the object, i.e., without the object o in the tray.</li>
+</ul>
+</p>
+
+
+<p style="font-size:18px;"><b><u>-TCN (Time-Contrastive Networks</u></b><p>
+
+<p>Anchor and the positive images captured from simultaneous viewpoints are emboldened to be close in the embedding space, while distant from negative images taken from a different time in the same sequence. The model <dt-cite key="sermanet2017timecontrastive"></dt-cite> simultaneously learns to apprehend what is common between different-looking images and what is different between similar-looking images. This signal causes the model to identify attributes that do not change across the viewpoint, but do change across time while ignoring annoyance variables such as motion blur, lighting, and background effect. TCN embedding is trained with triplet loss on data collected by taking videos of the same scene simultaneously but from different angles where all the videos are unlabelled.</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\TCN.png" ></d-figure>
+<figcaption><i>Fig. 36. An illustration of time-contrastive approach for learning state embedding. The blue frames selected from two camera views at the same timestep are anchor and positive samples, while the red frame at a different timestep is the negative sample.. (Image source: <dt-cite key="sermanet2017timecontrastive"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>The resulting embedding can be used for self-supervised robotics in general and naturally handle 3rd-person imitation.</p>
+
+<p style="font-size:18px;"><b><u>-mfTCN (Multi-frame Time-Contrastive Networks)</u></b><p>
+
+<p>mfTCN <dt-cite key="dwibedi2018learning"></dt-cite> is improvised versions of TCN where the model learns embedding over multiple frames jointly rather than a single frame. Embedding multiple frames allows the network to contemplate not only the states of objects but also the motion cues present in a scene.</p>
+
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\mfTCN.png" ></d-figure>
+<figcaption><i>Fig. 37. The sampling process for training mfTCN. (Image source: <dt-cite key="dwibedi2018learning"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Each set of videos is collected from various synchronized viewpoints <script type="math/tex">v_1, v_2, \dots, v_k</script>. Considering clips at a particular time t from all given viewpoints to be similar to each other, i.e., they will attract each other in embedding space. These clips are also considered dissimilar to any clip beyond α steps in time in any view, and dissimilar clips will repulse each other in embedding space. To embed multiple frames at each timestep, two hyperparameters are considered: the number of frames that are embedded together denoted as n and the stride between these n frames denoted as s. At each time step <script type="math/tex">t</script>, the current frame and the previous <script type="math/tex">n-1</script> frames chosen with a stride of <script type="math/tex">s</script> between the frames are embedded, resulting in a network with a fixed lookback window of <script type="math/tex">(n-1)*s+1 </script> frames at each timestep. Training the model with n pair loss, convolutional neural network (CNN) is used as the base network to extract low-dimensional representations from raw pixels.</p>
+
+<p style="font-size:20px;"><b><u>Autonomous Goal Generation</u></b><p>
+
+<p>Algorithms proposed in RIG (Reinforcement Learning with Imagined Goals; <dt-cite key="nair2018visual"></dt-cite>)- Autonomous Goal Generation; combines unsupervised representation
+learning and reinforcement learning of goal-conditioned policies to acquire general-purpose skills.</p>
+
+<p>Since the particular goals that might be required at test-time are not known in advance, the agent learns from self-supervised "practice" by first imagining "fake" goals and then attempting to achieve them. By learning to achieve random goals sampled from the latent variable model, the goal-conditioned policy learns about the world and can be used to meet new, user-specified goals at test-time. </p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\RIG.png" ></d-figure>
+<figcaption><i>Fig. 38.  The workflow of RIG. (Image source: <dt-cite key="nair2018visual"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Representation of raw sensory inputs is learned using a latent variable model, which in the case of Nair et al., 2018 is based on the variational autoencoder (VAE). As in the above example, the robotic arm aims to push a small puck to the desired position, specified in the image provided.</p>
+
+<p>Let us consider that a <script type="math/tex">\beta</script>-VAE has an encoder <script type="math/tex">q_\phi</script> modeled by a Gaussian distribution, mapping input states to latent variable <script type="math/tex">z</script> and a decoder <script type="math/tex">p_\psi</script> mapping <script type="math/tex">z</script> back to the states. The state encoder in RIG is set to be the mean of the <script type="math/tex">\beta</script>-VAE encoder.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+z &\sim q_\phi(z \vert s) = \mathcal{N}(z; \mu_\phi(s), \sigma^2_\phi(s)) \\
+\mathcal{L}_{\beta\text{-VAE}} &= - \mathbb{E}_{z \sim q_\phi(z \vert s)} [\log p_\psi (s \vert z)] + \beta D_\text{KL}(q_\phi(z \vert s) \| p_\psi(s)) \\
+e(s) &\triangleq \mu_\phi(s)
+\end{aligned} %]]></script>
+
+<p>In contrast to grasp2vec, RIG applies data augmentation as well by latent goal relabeling: precisely half of the goals are generated from the prior at random. However, the problem that RIG face is a lack of object variations in the imagined goal pictures, i.e., If <script type="math/tex">\beta</script>-VAE is only trained with a black puck, it would not be able to create a goal with objects of different shapes and color.</p>
+
+<p>To come up with improvements, i.e. to train a generative model that can improve the generation of feasible goals in varied scenes, CC-VAE (Context-Conditioned VAE; <dt-cite key="nair2019contextual"></dt-cite>) inspired by CVAE (Conditional VAE; <dt-cite key="NIPS"></dt-cite>) is used over <script type="math/tex">\beta</script>-VAE for goal generation. CC-VAE can handlevisual variability in the scene via context-conditioned goal setting.</p>
+
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\CC-RIG.png" ></d-figure>
+<figcaption><i>Fig. 39. Illustration of workflow of context-conditioned RIG. (Image source: <dt-cite key="nair2019contextual"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>(1). The agent gathers random interaction data, to be used for both representation learning and as additional off-policy data for RL.</p>
+
+<p>(2). The proposed context-conditioned generative model (CC-VAE) learns generalizable skills. To improve the creation of plausible goal states that result from a starting state <script type="math/tex">s_0</script>, the model allows free flow of information through the context <script type="math/tex">z_c</script> while an information bottleneck on <script type="math/tex">z_t</script> gives the ability to generate samples by resampling only <script type="math/tex">z_t</script>. This architecture, as a result, provides a compact representation of the scene unhitching information that varies within a rollout <script type="math/tex">(z_t)</script> and the information that changes between rollouts <script type="math/tex">(z_c)</script>.</p>  
+
+
+<p>(3). Using the above representations, i.e. in (2), CC-RIG algorithm samples latent goals and learns a policy to minimize the latent distance to the goal. Rollouts are shown with a visual variation on the real-world robot pusher environment. The model includes the initial image <script type="math/tex">s_0</script>, final image <script type="math/tex">s_H</script>, selected frames from the rollout, and the latent decoded goal <script type="math/tex">d(z'g)</script>.</p> 
+
+<p>(4). The agent is given a goal image <script type="math/tex">s_g</script> at the test time, and it executes the policy to reach it. The method successfully handles pushing novel objects that were unseen at training time.</p> 
+
+
+<p>Other than the state encoder <script type="math/tex">e(s) \triangleq \mu_\phi(s)</script>, CC-VAE trains a second convolutional encoder <script type="math/tex">e_0(.)</script> to translate the starting state <script type="math/tex">s_0</script> into a compact context representation <script type="math/tex">c = e_0(s_0)</script>. Two encoders, <script type="math/tex">e(.)</script> and <script type="math/tex">e_0(.)</script>, are intentionally different without shared weights, as they are expected to encode different factors of image variation. In addition to the loss function of CVAE, CC-VAE adds an extra term to learn to reconstruct <script type="math/tex">c</script> back to <script type="math/tex">s_0</script>, <script type="math/tex">\hat{s}_0 = d_0(c)</script>.</p>
+
+<script type="math/tex; mode=display">\mathcal{L}_\text{CC-VAE} = \mathcal{L}_\text{CVAE} + \log p(s_0\vert c)</script>
+
+
+<p style="font-size:20px;"><b><u>Bisimulation</u></b><p>
+
+<p>If we only want to learn information which is relevant to control, then we should better move away from reconstruction-based representation learning as irrelevant details which are essential for the process of reconstruction can be a distraction for the RL algorithm. For Example, Task-agnostic representations that intend to represent all the dynamics in the system can be a distraction for the RL algorithm.</p>
+
+<p>In theoretical computer science, a Bisimulation <dt-cite key="articlex"></dt-cite> refers to a binary relation between state transition systems, associating systems that behave in the same way. Intuitively two systems are bisimilar if they match each other's moves. Bisimulation, in this case, is an equivalence relation between two states with similar long-term behaviour.</p>
+
+<p>Such relations need to be quantified in order to aggregate states in order to compress a high-dimensional state space into a smaller space for more efficient computation. Bisimulation metrics quantify such relation, and the bisimulation distance between two states outlines the behavioural difference between these two states.</p>
+
+<p>Given a <a href="/lil-log/2018/02/19/a-long-peek-into-reinforcement-learning.html#markov-decision-processes">MDP</a> <script type="math/tex">\mathcal{M} = \langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle</script> and a bisimulation relation <script type="math/tex">B</script>, two states that are equal under relation <script type="math/tex">B</script> (i.e. <script type="math/tex">s_i B s_j</script>) should have the same immediate reward for all actions and the same transition probabilities over the next bisimilar states:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+\mathcal{R}(s_i, a) &= \mathcal{R}(s_j, a) \; \forall a \in \mathcal{A} \\
+\mathcal{P}(G \vert s_i, a) &= \mathcal{P}(G \vert s_j, a) \; \forall a \in \mathcal{A} \; \forall G \in \mathcal{S}_B
+\end{aligned} %]]></script>
+
+<p>where <script type="math/tex">\mathcal{S}_B</script> is a partition of the state space under the relation <script type="math/tex">B</script>.</p>
+
+<p>Note that <script type="math/tex">=</script> is always a bisimulation relation. The most interesting one is the maximal bisimulation relation <script type="math/tex">\sim</script>, which defines a partition <script type="math/tex">\mathcal{S}_\sim</script> with <em>fewest</em> groups of states.</p>
+
+<p style="font-size:18px;"><b><u>-DeepMDP</u></b><p>
+
+<p>In contrast to bisimulation metric, DeepMDP <dt-cite key="gelada2019deepmdp"></dt-cite>, which is a parameterized latent space model that is trained via the minimization of two pliable losses:
+<ul style="line-height: 0.5;">
+<li>Prediction of rewards</li> 
+<li>Prediction of the distribution over next latent states</li>
+</ul>
+</p>
+
+<figure class="smaller-img">
+      <d-figure ><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\Bisimulation.png" ></d-figure>
+<figcaption><i>Fig. 40. DeepMDP learns a latent space model by minimizing two losses on a reward model and a dynamics model. (Image source: <dt-cite key="gelada2019deepmdp"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>where <script type="math/tex">\phi(s)</script> is the embedding of state <script type="math/tex">s</script>; symbols with bar are functions (reward function <script type="math/tex">R</script> and transition function <script type="math/tex">P</script>) in the same MDP but running in the latent low-dimensional observation space. Here the embedding representation <script type="math/tex">\phi</script> can be connected to bisimulation metrics, as the bisimulation distance is proved to be upper-bounded by the L2 distance in the latent space.</p>
+
+<p>The function <script type="math/tex">D</script> quantifies the distance between two probability distributions and should be chosen carefully. DeepMDP focuses on <em>Wasserstein-1</em> metric (also known as <a href="/lil-log/2017/08/20/from-GAN-to-WGAN.html#what-is-wasserstein-distance">“earth-mover distance”</a>). The Wasserstein-1 distance between distributions <script type="math/tex">P</script> and <script type="math/tex">Q</script> on a metric space <script type="math/tex">(M, d)</script> (i.e., <script type="math/tex">d: M \times M \to \mathbb{R}</script>) is:</p>
+
+<script type="math/tex; mode=display">W_d (P, Q) = \inf_{\lambda \in \Pi(P, Q)} \int_{M \times M} d(x, y) \lambda(x, y) \; \mathrm{d}x \mathrm{d}y</script>
+
+<p>where <script type="math/tex">\Pi(P, Q)</script> is the set of all <a href="https://en.wikipedia.org/wiki/Coupling_(probability)">couplings</a> of <script type="math/tex">P</script> and <script type="math/tex">Q</script>. <script type="math/tex">d(x, y)</script> defines the cost of moving a particle from point <script type="math/tex">x</script> to point <script type="math/tex">y</script>.</p>
+
+<p>The Wasserstein metric has a dual form according to the Monge-Kantorovich duality:</p>
+
+<script type="math/tex; mode=display">W_d (P, Q) = \sup_{f \in \mathcal{F}_d} \vert \mathbb{E}_{x \sim P} f(x) - \mathbb{E}_{y \sim Q} f(y) \vert</script>
+
+<p>where <script type="math/tex">\mathcal{F}_d</script> is the set of 1-Lipschitz functions under the metric <script type="math/tex">d</script> - <script type="math/tex">\mathcal{F}_d = \{ f: \vert f(x) - f(y) \vert \leq d(x, y) \}</script>.</p>
+
+<p>This simplifies high-dimensional observations for RL tasks and to learning latent space model.</p>
+
+<p>Optimization of these objectives guarantees:
+<ul style="line-height: 0.5;">
+<li>Superlative quality of the latent space as a representation of the state space</li>
+<li>Superlative quality of the DeepMDP as a model of the environment</li>
+</ul>
+</p>
+
+<p style="font-size:18px;"><b><u>-Deep Bisimulation for Control </u></b><p>
+
+<p>Promotes representation learning from rich observations, such as images, that is beneficial for control in reinforcement learning tasks without relying either on domain knowledge or pixel-reconstruction. DBC <dt-cite key="zhang2020learning"></dt-cite> models the dynamics by learning a transition model and a reward model.</p>
+
+<figure class="smaller-img">
+      <d-figure ><center><img src="C:\Users\Sankalp Arora\Desktop\SSL\Images\DBC-illustration.png" style="width: 70%;" ></center></d-figure>
+<figcaption><i>Fig. 41. Illustration of The model architecture is a siamese network for Deep Bisimulation for Control algorithm which learns a bisimulation metric representation via learning a reward model and a dynamics model.  (Image source: <dt-cite key="zhang2020learning"></dt-cite>)</i></figcaption>
+    </figure>
+
+<p>Deep bisimulation for control: for learning a bisimulation metric representation. Shaded in blue is the leading model architecture; it is reused for both states, like a Siamese network. The loss is calculated as a weighted sum of the reward and transition distribution distances (using the Wasserstein metric W). There is a separate optimization step to train the reward and dynamics models separately.</p>
+
+<p>Given batches of observations pairs, the training loss for <script type="math/tex">\phi</script>, <script type="math/tex">J(\phi)</script>, minimizes the mean square error between the on-policy bisimulation metric and Euclidean distance in the latent space:</p>
+
+<script type="math/tex; mode=display">J(\phi) = \Big( \|\phi(s_i) - \phi(s_j)\|_1 - \vert \hat{\mathcal{R}}(\bar{\phi}(s_i)) - \hat{\mathcal{R}}(\bar{\phi}(s_j)) \vert - \gamma W_2(\hat{\mathcal{P}}(\cdot \vert \bar{\phi}(s_i), \bar{\pi}(\bar{\phi}(s_i))), \hat{\mathcal{P}}(\cdot \vert \bar{\phi}(s_j), \bar{\pi}(\bar{\phi}(s_j)))) \Big)^2</script>
+
+<p>where <script type="math/tex">\bar{\phi}(s)</script> denotes <script type="math/tex">\phi(s)</script> with stop gradient and <script type="math/tex">\bar{\pi}</script> is the mean policy output. The learned reward model <script type="math/tex">\hat{\mathcal{R}}</script> is deterministic and the learned forward dynamics model <script type="math/tex">\hat{\mathcal{P}}</script> outputs a Gaussian distribution.</p>
+
+
+</d-article>
+
+
+<dt-appendix>
+</dt-appendix>
+
+
+<script type="text/bibliography">
+  @article{zhang2016colorful,
+    title={Colorful Image Colorization},
+    author={Richard Zhang and Phillip Isola and Alexei A. Efros},
+    journal={arXivreprint arXiv:1603.08511},
+    year={2016},
+    url={https://arxiv.org/abs/1603.08511}
+  },@article{zhai2019s4l,
+    title={S4L: Self-Supervised Semi-Supervised Learning},
+    author={Xiaohua Zhai and Avital Oliver and Alexander Kolesnikov and Lucas Beyer},
+    journal={arXivreprint arXiv:1905.03670},
+    year={2019},
+    url={https://arxiv.org/abs/1905.03670.pdf}
+},@article{sun2019unsupervised,
+    title={Unsupervised Domain Adaptation through Self-Supervision},
+    author={Yu Sun and Eric Tzeng and Trevor Darrell and Alexei A. Efros},
+    journal={arXivreprint arXiv:1909.11825},
+    year={2019},
+    url={https://arxiv.org/abs/1909.11825}
+},@article{HH,
+    title={Introduction to deep super resolution},
+    author={Hiroto Honda},
+    journal={Medium},
+    year={2018},
+    url={https://medium.com/@hirotoschwert/introduction-to-deep-super-resolution-c052d84ce8cf}
+},@article{pathak2016context,
+    title={Context Encoders: Feature Learning by Inpainting},
+    author={Deepak Pathak and Philipp Krahenbuhl and Jeff Donahue and Trevor Darrell and Alexei A. Efros},
+    journal={arXivreprint arXiv:1604.07379},
+    year={2016},
+    url={https://arxiv.org/abs/1604.07379}
+},@article{Iizuka,
+    title={Globally and Locally Consistent Image Completion},
+    author={Satoshi Iizuka, Edgar Simo-Serra, Hiroshi Ishikawa},
+    journal={ACM Transactions on Graphics},
+    year={2017},
+    url={https://waseda.pure.elsevier.com/en/publications/globally-and-locally-consistent-image-completion}
+},@article{zhang2016splitbrain,
+    title={Split-Brain Autoencoders: Unsupervised Learning by Cross-Channel Prediction},
+    author={Richard Zhang and Phillip Isola and Alexei A. Efros},
+    journal={arXivreprint arXiv:1611.09842},
+    year={2016},
+    url={https://arxiv.org/abs/1611.09842}
+},@article{zhang2016splitbrain,
+    title={Split-Brain Autoencoders: Unsupervised Learning by Cross-Channel Prediction},
+    author={Richard Zhang and Phillip Isola and Alexei A. Efros},
+    journal={arXivreprint arXiv:1611.09842},
+    year={2016},
+    url={https://arxiv.org/abs/1611.09842}
+},@article{dosovitskiy2014discriminative,
+    title={Discriminative Unsupervised Feature Learning with Exemplar Convolutional Neural Networks},
+    author={Alexey Dosovitskiy and Philipp Fischer and Jost Tobias Springenberg and Martin Riedmiller and Thomas Brox},
+    journal={arXivreprint arXiv:1406.6909},
+    year={2014},
+    url={https://arxiv.org/abs/1406.6909}
+},@article{vincent08,
+    title={Discriminative Unsupervised Feature Learning with Exemplar Convolutional Neural Networks},
+    author={Pascal Vincent and Hugo Larochelle and Yoshua Bengio and Pierre{-}Antoine Manzagol},
+    journal={ICML '08: Proceedings of the 25th international conference on Machine learning},
+    year={2008},
+    url={https://doi.org/10.1145/1390156.1390294}
+},@article{donahue2016adversarial,
+    title={Adversarial Feature Learning},
+    author={Jeff Donahue and Philipp Krähenbühl and Trevor Darrell},
+    journal={arXivreprint arXiv:1605.09782},
+    year={2016},
+    url={https://arxiv.org/abs/1605.09782}
+},@article{caron2018deep,
+    title={Deep Clustering for Unsupervised Learning of Visual Features},
+    author={Mathilde Caron and Piotr Bojanowski and Armand Joulin and Matthijs Douze},
+    journal={arXivreprint arXiv:1807.05520},
+    year={2018},
+    url={https://arxiv.org/abs/1807.05520}
+},@article{noroozi2016unsupervised,
+    title={Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles},
+    author={Mehdi Noroozi and Paolo Favaro},
+    journal={arXivreprint arXiv:1603.09246},
+    year={2016},
+    url={https://arxiv.org/abs/1603.09246}
+},@article{ren2017crossdomain,
+    title={Cross-Domain Self-supervised Multi-task Feature Learning using Synthetic Imagery},
+    author={Zhongzheng Ren and Yong Jae Lee},
+    journal={arXivreprint arXiv:1711.09082},
+    year={2017},
+    url={https://arxiv.org/abs/1711.09082}
+},@article{noroozi2017representation,
+    title={Representation Learning by Learning to Count},
+    author={Mehdi Noroozi and Hamed Pirsiavash and Paolo Favaro},
+    journal={arXivreprint arXiv:1708.06734},
+    year={2017},
+    url={https://arxiv.org/abs/1708.06734}
+},@article{doersch2015unsupervised,
+    title={Unsupervised Visual Representation Learning by Context Prediction},
+    author={Carl Doersch and Abhinav Gupta and Alexei A. Efros},
+    journal={arXivreprint arXiv:1505.05192},
+    year={2015},
+    url={https://arxiv.org/abs/1505.05192}
+},@article{gidaris2018unsupervised,
+    title={Unsupervised Representation Learning by Predicting Image Rotations},
+    author={Spyros Gidaris and Praveer Singh and Nikos Komodakis},
+    journal={arXivreprint arXiv:1803.07728},
+    year={2018},
+    url={https://arxiv.org/abs/1803.07728}
+},@article{oord2018representation,
+    title={Representation Learning with Contrastive Predictive Coding},
+    author={Aaron van den Oord and Yazhe Li and Oriol Vinyals},
+    journal={arXivreprint arXiv:1807.03748},
+    year={2018},
+    url={https://arxiv.org/abs/1807.03748}
+},@article{he2019momentum,
+    title={Momentum Contrast for Unsupervised Visual Representation Learning},
+    author={Kaiming He and Haoqi Fan and Yuxin Wu and Saining Xie and Ross Girshick},
+    journal={arXivreprint arXiv:1911.05722},
+    year={2019},
+    url={https://arxiv.org/abs/1911.05722}
+},@article{chen2020simple,
+    title={A Simple Framework for Contrastive Learning of Visual Representations},
+    author={Ting Chen and Simon Kornblith and Mohammad Norouzi and Geoffrey Hinton},
+    journal={arXivreprint arXiv:2002.05709},
+    year={2020},
+    url={https://arxiv.org/abs/2002.05709}
+},@article{grill2020bootstrap,
+    title={Bootstrap Your Own Latent: A New Approach to Self-Supervised Learning},
+    author={Jean-Bastien Grill and Florian Strub and Florent Altché and Corentin Tallec and Pierre H. Richemond and Elena Buchatskaya and Carl Doersch and Bernardo Avila Pires and Zhaohan Daniel Guo and Mohammad Gheshlaghi Azar and Bilal Piot and Koray Kavukcuoglu and Rémi Munos and Michal Valko},
+    journal={arXivreprint arXiv:2006.07733},
+    year={2020},
+    url={https://arxiv.org/abs/2006.07733}
+},@article{wang2015unsupervised,
+    title={Unsupervised Learning of Visual Representations using Videos},
+    author={Xiaolong Wang and Abhinav Gupta},
+    journal={arXivreprint arXiv:1505.00687},
+    year={2015},
+    url={https://arxiv.org/abs/1505.00687}
+},@article{vondrick2018tracking,
+    title={Tracking Emerges by Colorizing Videos},
+    author={Carl Vondrick and Abhinav Shrivastava and Alireza Fathi and Sergio Guadarrama and Kevin Murphy},
+    journal={arXivreprint arXiv:1806.09594},
+    year={2018},
+    url={https://arxiv.org/abs/1806.09594}
+},@article{misra2016shuffle,
+    title={Shuffle and Learn: Unsupervised Learning using Temporal Order Verification},
+    author={Ishan Misra and C. Lawrence Zitnick and Martial Hebert},
+    journal={arXivreprint arXiv:1603.08561},
+    year={2016},
+    url={https://arxiv.org/abs/1603.08561}
+},@article{fern2016selfsupervised,
+    title={Self-Supervised Video Representation Learning With Odd-One-Out Networks},
+    author={Basura Fernando and Hakan Bilen and Efstratios Gavves and Stephen Gould},
+    journal={arXivreprint arXiv:1611.06646},
+    year={2016},
+    url={https://arxiv.org/abs/1611.06646}
+},@article{wei2018learning,
+    title={Learning and Using the Arrow of Time},
+    author={Wei, Donglai and Lim, Joseph J and Zisserman, Andrew and Freeman, William T},
+    journal={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+    pages={8052--8060)},
+    year={2018},
+    url={https://vcg.seas.harvard.edu/publications/learning-and-using-the-arrow-of-time#:~:text=To%20learn%20the%20arrow%20of%20time%20efficiently%20and,artificial%20cues%2C%20such%20as%20inematographic%20conventions%2C%20on%20learning.}
+},@article{jang2018grasp2vec,
+    title={Grasp2Vec: Learning Object Representations from Self-Supervised Grasping},
+    author={Eric Jang and Coline Devin and Vincent Vanhoucke and Sergey Levine},
+    journal={arXivreprint arXiv:1811.06964},
+    year={2018},
+    url={https://arxiv.org/abs/1811.06964}
+},@article{sermanet2017timecontrastive,
+    title={Time-Contrastive Networks: Self-Supervised Learning from Video},
+    author={Pierre Sermanet and Corey Lynch and Yevgen Chebotar and Jasmine Hsu and Eric Jang and Stefan Schaal and Sergey Levine},
+    journal={arXivreprint arXiv:1704.06888},
+    year={2017},
+    url={https://arxiv.org/abs/1704.06888}
+},@article{dwibedi2018learning,
+    title={Learning Actionable Representations from Visual Observations},
+    author={Debidatta Dwibedi and Jonathan Tompson and Corey Lynch and Pierre Sermanet},
+    journal={arXivreprint arXiv:1808.00928},
+    year={2018},
+    url={https://arxiv.org/abs/1808.00928}
+},@article{nair2018visual,
+    title={Visual Reinforcement Learning with Imagined Goals},
+    author={Ashvin Nair and Vitchyr Pong and Murtaza Dalal and Shikhar Bahl and Steven Lin and Sergey Levine},
+    journal={arXivreprint arXiv:1807.04742},
+    year={2018},
+    url={https://arxiv.org/abs/1807.04742}
+},@article{nair2019contextual,
+    title={Contextual Imagined Goals for Self-Supervised Robotic Learning},
+    author={Ashvin Nair and Shikhar Bahl and Alexander Khazatsky and Vitchyr Pong and Glen Berseth and Sergey Levine},
+    journal={arXivreprint arXiv:1910.11670},
+    year={2019},
+    url={https://arxiv.org/abs/1910.11670}
+},@article{NIPS,
+    title={Learning Structured Output Representation using Deep Conditional Generative Models},
+    author={Kihyuk Sohn and Honglak Lee and Xinchen Yan},
+    journal={Advances in Neural Information Processing Systems 28 (NIPS 2015)},
+    year={2015},
+    url={https://papers.nips.cc/paper/5775-learning-structured-output-representation-using-deep-conditional-generative-models}
+},@article{gelada2019deepmdp,
+    title={DeepMDP: Learning Continuous Latent Space Models for Representation Learning},
+    author={Carles Gelada and Saurabh Kumar and Jacob Buckman and Ofir Nachum and Marc G. Bellemare},
+    journal={arXivreprint arXiv:1906.02736},
+    year={2019},
+    url={https://arxiv.org/abs/1906.02736}
+},@article{zhang2020learning,
+    title={Learning Invariant Representations for Reinforcement Learning without Reconstruction},
+    author={Amy Zhang and Rowan McAllister and Roberto Calandra and Yarin Gal and Sergey Levine},
+    journal={arXivreprint arXiv:2006.10742},
+    year={2020},
+    url={https://arxiv.org/abs/2006.10742}
+},@article{articlex,
+    title={Equivalence notions and model minimization in Markov decision processes},
+    author={Givan, Robert and Dean, Thomas and Greig, Matthew},
+    journal={Artificial Intelligence},
+    year={2002},
+    url={https://dl.acm.org/doi/10.1016/S0004-3702%2802%2900376-4}
+}
+</script>
+
+
+
+
+ 
